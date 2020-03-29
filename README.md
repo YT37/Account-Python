@@ -2,7 +2,7 @@
 This project is a Login/Signup interface in Python.
 
 # Requirements
- - Python 3.x
+ - Python 3.6 or up
  - MySQL
  - PassLib
  
