@@ -90,13 +90,8 @@ def logIn(email, pwd, win):
                 "Not Registered",
                 "The Email You Entered Is Wrong Or Either Not Registered",
             )
-        # else:
-        #     messagebox.showinfo(
-        #         "Not Registered",
-        #         "The Email You Entered Is Wrong Or Either Not Registered",
-        #     )
-
-
+            
+            
 def signUp(email, pwd, win):
     win.title("Sign Up")
     win.iconbitmap("SignUp.ico")
