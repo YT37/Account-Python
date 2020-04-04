@@ -10,12 +10,6 @@ pwdHash = CryptContext(
     default="pbkdf2_sha256",
     pbkdf2_sha256__default_rounds=30000,
 )
-db = connector.connect(host="localhost",
-                       user="root",
-                       passwd=os.environ.get("Password"),
-                       database="Users")
-
-cursor = db.cursor(buffered=True)
 
 
 def enterUser(email, pwd, win):
@@ -31,6 +25,7 @@ def delete(email, win):
     cursor.execute("""DELETE FROM userInfo WHERE Username = '%s'""" % (email))
     db.commit()
     win.destroy()
+    main()
 
 
 def welcome(email, oldWin):
@@ -76,6 +71,7 @@ def logIn(email, pwd, win):
     cursor.execute("""SELECT Username FROM userInfo""")
 
     for user in cursor:
+        print(type(str(user)[2:-3]))
         if email == str(user)[2:-3]:
             cursor.execute(
                 """SELECT Password FROM userInfo WHERE Username = '%s'""" %
@@ -94,6 +90,11 @@ def logIn(email, pwd, win):
                 "Not Registered",
                 "The Email You Entered Is Wrong Or Either Not Registered",
             )
+        # else:
+        #     messagebox.showinfo(
+        #         "Not Registered",
+        #         "The Email You Entered Is Wrong Or Either Not Registered",
+        #     )
 
 
 def signUp(email, pwd, win):
@@ -222,11 +223,27 @@ def main():
 
 
 if __name__ == "__main__":
+    try:
+        db = connector.connect(host="localhost", user="root", passwd="root")
+        cursor = db.cursor(buffered=True)
+        cursor.execute("CREATE DATABASE Users")
+
+        db = connector.connect(host="localhost",
+                               user="root",
+                               passwd="root",
+                               database="Users")
+        cursor = db.cursor(buffered=True)
+        cursor.execute(
+            """CREATE TABLE userInfo (Username VARCHAR(50),Password VARCHAR(300))"""
+        )
+        cursor.execute(
+            """INSERT INTO userInfo (Username,Password) VALUES ('root@gmail.com','root')"""
+        )
+    except:
+        db = connector.connect(host="localhost",
+                               user="root",
+                               passwd="root",
+                               database="Users")
+        cursor = db.cursor(buffered=True)
+
     main()
-    # db = connector.connect(host="localhost",
-    #                        user="root",
-    #                        passwd=os.environ.get("Password"),
-    #                        database="Users")
-    # cursor = db.cursor(buffered=True)
-    # cursor.execute("CREATE DATABASE Users")
-    # cursor.execute("CREATE TABLE userInfo (Username VARCHAR(50),Password VARCHAR(300))")
