@@ -10,8 +10,7 @@ pwdHash = CryptContext(
     default="pbkdf2_sha256",
     pbkdf2_sha256__default_rounds=30000,
 )
-
-
+          
 def enterUser(email, pwd, win):
     cursor.execute(
         """INSERT INTO userInfo (Username,Password) VALUES ('%s','%s')""" %
